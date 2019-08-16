@@ -1,0 +1,34 @@
+tpd:
+  peer1Port: 8761
+  peer2Port: 8762
+ 
+---
+spring:
+  profiles: peer1
+eureka:
+  instance:
+    hostname: eureka-peer1
+    appname: eureka-cluster
+  client:
+    serviceUrl:
+      defaultZone: http://127.0.0.1:${tpd.peer2Port}/eureka
+    register-with-eureka: true
+    fetch-registry: true
+server:
+  port: ${tpd.peer1Port}
+ 
+---
+spring:
+  profiles: peer2
+eureka:
+  instance:
+    hostname: eureka-peer2
+    appname: eureka-cluster
+  client:
+    serviceUrl:
+      defaultZone: http://127.0.0.1:${tpd.peer1Port}/eureka
+    register-with-eureka: true
+    fetch-registry: true
+server:
+  port: ${tpd.peer2Port}
+    
